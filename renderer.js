@@ -20,23 +20,38 @@ window.setInterval(function () {
 }, 3000);
 
 
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: fs.createReadStream(filename, {
+    enconding: "utf8",
+  }),
+  output: null,
+});
+
+rl.on("readline", function (line) {
+  console.log("got line content:%s", line);
+});
 
 function readFile() {
+  var readline = require("readline");
+  var rl = readline.createInterface({
+    input: fs.createReadStream(filename, {
+      enconding: "utf8",
+    }),
+    output: null,
+  });
 
-    var readline = require("readline");
-    var rl = readline.createInterface({
-      input: fs.createReadStream(filename, {
-        enconding: "utf8",
-      }),
-      output: null,
-    });
-    
-    rl.on("readline", function (line) {
-      console.log("got line content:%s", line);
-    });
+  rl.on("readline", function (line) {
+    console.log("got line content:%s", line);
+  });
 }
 
+// window.onload = function(){
+//       readFile();
+//     };
 
-window.onload = function(){
-      readFile();
-    };
+const process_crash = document.getElementById("process-crash");
+
+process_crash.addEventListener("click", () => {
+ // readFile();
+});
