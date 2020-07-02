@@ -4,41 +4,25 @@
 // `nodeIntegration` is turned off. Use `preload.js` to
 // selectively enable features needed in the rendering
 // process.
-const fs = require('fs');
-const readLine = require("readline");
-//fs.readFileSync(new URL('file:///D:/debug/software/cleanbot_visualizer_release_mingw64/online_log/online_P7Log_String_20200701-155146.txt'));
+const fs = require("fs");
+const read_line = require("readline");
+//fs.readFileSync(new URL('file:///D:/debug/software/cleanbot_visualizer_release_mingw64/online_log/online_P7Log_String_20200702-152652.txt'));
 
-window.setInterval(function () {
-    // 读取数据后,处理完成后放入outpu.txt
-    readFileToArr('./test.txt', function (arr) {
-        // 通过回调得到的,按行获得的数据
-        console.log(arr);
-        var tempArr = [];
-        arr.forEach((ele) => {
-            tempArr.push("b." + ele + " as hc_" + ele);
-        });
-        fs.writeFile('./output.txt', tempArr.join("\n"),
-            function (err) {
-                if (err) throw err; 
-            });
-    });
-}, 5000);
+const readStream = fs.createReadStream(
+  "D:/debug/software/cleanbot_visualizer_release_mingw64/online_log/online_P7Log_String_20200701-155146.txt"
+);
 
+window.setInterval(function () {}, 5000);
 
-function readFileToArr(fileName, callback) {
+const rl = read_line.createInterface({
+  input: readStream,
+});
 
-    var arr = [];
-    var readObj = readLine.createInterface({
-        input: fs.createReadStream(fileName)
-    });
+rl.on("line", (line) => {
+  console.log(`Line from file: ${line}`);
+});
 
-    // 一行一行地读取文件
-    readObj.on('line', function (line) {
-        arr.push(line);
-    });
-    // 读取完成后,将arr作为参数传给回调函数
-    readObj.on('close', function () {
-        callback(arr);
-    });
-}
-
+rl.on("close", (line) => {
+  console.log("读取完毕！");
+  readStream.destroy();
+});
